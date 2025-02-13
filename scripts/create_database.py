@@ -6,11 +6,13 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 # Pattern um nur die Pfade zubekommen aus den Input
+# falls weitere Zeitungen aufgenommen werden soll, kann das Format weiter ausgeführt werden
 PATTERN_FOR_FAZ = "**/*faz*.html"
 PATTERN_FOR_SZ = "**/*sz*.html"
 PATTERN_FOR_WELT = "**/*welt*.html"
 
-# Hier wird je Pattern alle Pfade gezogen und in einer Liste gesichert
+os.chdir(Path(__file__).parent)
+
 all_path_to_faz = glob.glob(os.path.join(Path.cwd().parent / "input", PATTERN_FOR_FAZ))
 all_path_to_sz = glob.glob(os.path.join(Path.cwd().parent / "input", PATTERN_FOR_SZ))
 all_path_to_welt = glob.glob(os.path.join(Path.cwd().parent / "input", PATTERN_FOR_WELT))
@@ -59,15 +61,18 @@ def get_news_data(file_path):
     
     return data
 
-output_dir = Path.cwd().parent / "output"
+os.getcwd()
 
+output_dir = Path.cwd().parent / "output"
 all_data = []
 
 for file_path in all_path:
     all_data.extend(get_news_data(file_path))
 
+# DataFrame erstellen
 df = pd.DataFrame(all_data)
 
+# SQLite-Datenbank speichern
 db_path = output_dir / "news_data.sqlite"
 conn = sqlite3.connect(db_path)
 df.to_sql("news", conn, if_exists="replace", index=False)
