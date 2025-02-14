@@ -13,7 +13,6 @@ from sklearn.decomposition import LatentDirichletAllocation
 
 OUTPUT_DIR = Path("output")
 PATH_TO_SQLITE = OUTPUT_DIR / "news_data.sqlite"
-# PATH_TO_SQLITE = "output/news_data.sqlite"
 CREATE_DB_SCRIPT = Path("scripts/create_database.py")
 QUERY = "SELECT * FROM news"
 STOPWORDS_URL = "https://raw.githubusercontent.com/solariz/german_stopwords/master/german_stopwords_full.txt"
